@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b8f98a7dfb1564fb990a6296c2d483, type: 3}
+  m_Name: SheetDownloader
+  m_EditorClassIdentifier: 
+  keyJson: {fileID: 4900000, guid: 5bb7ba62e4d18a844948dacf2c6532f7, type: 3}
+  isShowingLog: 0

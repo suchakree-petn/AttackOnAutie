@@ -1,0 +1,409 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0301b5691f77bff439f3cf48d1556411, type: 3}
+  m_Name: GameConfig
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Config
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[Config,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 11
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Player HP
+    - Name: $v
+      Entry: 7
+      Data: 2|Config, Assembly-CSharp
+    - Name: Name
+      Entry: 1
+      Data: Player HP
+    - Name: Amount
+      Entry: 3
+      Data: 1
+    - Name: Damage
+      Entry: 3
+      Data: 1
+    - Name: HP
+      Entry: 3
+      Data: 50
+    - Name: MissedChance
+      Entry: 4
+      Data: 0
+    - Name: Sec
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Enemy HP(easy)
+    - Name: $v
+      Entry: 7
+      Data: 3|Config, Assembly-CSharp
+    - Name: Name
+      Entry: 1
+      Data: Enemy HP(easy)
+    - Name: Amount
+      Entry: 3
+      Data: 0
+    - Name: Damage
+      Entry: 3
+      Data: 0
+    - Name: HP
+      Entry: 3
+      Data: 50
+    - Name: MissedChance
+      Entry: 4
+      Data: 0
+    - Name: Sec
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Enemy HP(normal)
+    - Name: $v
+      Entry: 7
+      Data: 4|Config, Assembly-CSharp
+    - Name: Name
+      Entry: 1
+      Data: Enemy HP(normal)
+    - Name: Amount
+      Entry: 3
+      Data: 0
+    - Name: Damage
+      Entry: 3
+      Data: 0
+    - Name: HP
+      Entry: 3
+      Data: 60
+    - Name: MissedChance
+      Entry: 4
+      Data: 0
+    - Name: Sec
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Enemy HP(hard)
+    - Name: $v
+      Entry: 7
+      Data: 5|Config, Assembly-CSharp
+    - Name: Name
+      Entry: 1
+      Data: Enemy HP(hard)
+    - Name: Amount
+      Entry: 3
+      Data: 0
+    - Name: Damage
+      Entry: 3
+      Data: 0
+    - Name: HP
+      Entry: 3
+      Data: 70
+    - Name: MissedChance
+      Entry: 4
+      Data: 0
+    - Name: Sec
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Normal Attack
+    - Name: $v
+      Entry: 7
+      Data: 6|Config, Assembly-CSharp
+    - Name: Name
+      Entry: 1
+      Data: Normal Attack
+    - Name: Amount
+      Entry: 3
+      Data: 1
+    - Name: Damage
+      Entry: 3
+      Data: 8
+    - Name: HP
+      Entry: 3
+      Data: 0
+    - Name: MissedChance
+      Entry: 4
+      Data: 0
+    - Name: Sec
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Small Attack
+    - Name: $v
+      Entry: 7
+      Data: 7|Config, Assembly-CSharp
+    - Name: Name
+      Entry: 1
+      Data: Small Attack
+    - Name: Amount
+      Entry: 3
+      Data: 1
+    - Name: Damage
+      Entry: 3
+      Data: 5
+    - Name: HP
+      Entry: 3
+      Data: 0
+    - Name: MissedChance
+      Entry: 4
+      Data: 0
+    - Name: Sec
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Power Throw
+    - Name: $v
+      Entry: 7
+      Data: 8|Config, Assembly-CSharp
+    - Name: Name
+      Entry: 1
+      Data: Power Throw
+    - Name: Amount
+      Entry: 3
+      Data: 1
+    - Name: Damage
+      Entry: 3
+      Data: 10
+    - Name: HP
+      Entry: 3
+      Data: 0
+    - Name: MissedChance
+      Entry: 4
+      Data: 0
+    - Name: Sec
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Double Attack
+    - Name: $v
+      Entry: 7
+      Data: 9|Config, Assembly-CSharp
+    - Name: Name
+      Entry: 1
+      Data: Double Attack
+    - Name: Amount
+      Entry: 3
+      Data: 2
+    - Name: Damage
+      Entry: 3
+      Data: 5
+    - Name: HP
+      Entry: 3
+      Data: 0
+    - Name: MissedChance
+      Entry: 4
+      Data: 0
+    - Name: Sec
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Heal
+    - Name: $v
+      Entry: 7
+      Data: 10|Config, Assembly-CSharp
+    - Name: Name
+      Entry: 1
+      Data: Heal
+    - Name: Amount
+      Entry: 3
+      Data: 0
+    - Name: Damage
+      Entry: 3
+      Data: 0
+    - Name: HP
+      Entry: 3
+      Data: 20
+    - Name: MissedChance
+      Entry: 4
+      Data: 0
+    - Name: Sec
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Time to think
+    - Name: $v
+      Entry: 7
+      Data: 11|Config, Assembly-CSharp
+    - Name: Name
+      Entry: 1
+      Data: Time to think
+    - Name: Amount
+      Entry: 3
+      Data: 0
+    - Name: Damage
+      Entry: 3
+      Data: 0
+    - Name: HP
+      Entry: 3
+      Data: 0
+    - Name: MissedChance
+      Entry: 4
+      Data: 0
+    - Name: Sec
+      Entry: 4
+      Data: 30
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Time to Warning
+    - Name: $v
+      Entry: 7
+      Data: 12|Config, Assembly-CSharp
+    - Name: Name
+      Entry: 1
+      Data: Time to Warning
+    - Name: Amount
+      Entry: 3
+      Data: 0
+    - Name: Damage
+      Entry: 3
+      Data: 0
+    - Name: HP
+      Entry: 3
+      Data: 0
+    - Name: MissedChance
+      Entry: 4
+      Data: 0
+    - Name: Sec
+      Entry: 4
+      Data: 10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  downloader: {fileID: 11400000, guid: 5554acd7ff0484f4aaf7a917ecc2e71a, type: 2}
+  spreadsheetId: 1MZjpqrgAwn3wJogLk1Pa71awlSoawGJXgtvGbwNN07A
+  sheetNameAndRange: GamePlay!A1:F12
