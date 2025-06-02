@@ -17,8 +17,9 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
 // Android Resolver Repos Start
+        def unityProjectPath = $/file:///**DIR_UNITYPROJECT**/$.replace("\\", "/")
         maven {
-            url "file:///C:/Users/tutor/OneDrive/Desktop/unityProj/AttackOnAuntie/Assets/GoogleSignIn/Editor/m2repository" // Assets/GoogleSignIn/Editor/GoogleSignInSupportDependencies.xml:9
+            url (unityProjectPath + "/Assets/GoogleSignIn/Editor/m2repository") // Assets/GoogleSignIn/Editor/GoogleSignInSupportDependencies.xml:9
         }
         mavenLocal()
 // Android Resolver Repos End
