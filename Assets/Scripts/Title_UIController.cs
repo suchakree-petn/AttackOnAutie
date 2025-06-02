@@ -14,28 +14,34 @@ public class Title_UIController : MonoBehaviour
     [SerializeField] private string imageURL;
 
     [FoldoutGroup("Login Panel")]
-    [SerializeField] private TMP_Text userNameTxt;
+    [SerializeField,Required] private TMP_Text userNameTxt;
     [FoldoutGroup("Login Panel")]
-    [SerializeField] private Button googleLoginButton, guestLoginButton;
+    [SerializeField,Required] private Button googleLoginButton, guestLoginButton;
     [FoldoutGroup("Login Panel")]
-    [SerializeField] private GameObject loginPanelGroup;
+    [SerializeField,Required] private GameObject loginPanelGroup;
 
     [FoldoutGroup("Profile")]
-    [SerializeField] private Image profilePic;
+    [SerializeField,Required] private Image profilePic;
     [FoldoutGroup("Profile")]
-    [SerializeField] private GameObject profileGroup;
+    [SerializeField,Required] private GameObject profileGroup;
 
     [FoldoutGroup("Main Menu")]
-    [SerializeField] private Button howToPlayButton, playGameButton;
+    [SerializeField,Required] private Button howToPlayButton, playGameButton;
 
     [FoldoutGroup("Main Menu")]
-    [SerializeField] private GameObject mainMenuPanelGroup;
+    [SerializeField,Required] private GameObject mainMenuPanelGroup;
 
     [FoldoutGroup("How To Play")]
-    [SerializeField] private GameObject howToPlayPanelGroup;
+    [SerializeField,Required] private GameObject howToPlayPanelGroup;
 
     [FoldoutGroup("How To Play")]
-    [SerializeField] private Button closeHowToPlayButton;
+    [SerializeField,Required] private Button closeHowToPlayButton;
+
+    [FoldoutGroup("Game Mode")]
+    [SerializeField,Required] private Button onePlayerButton, twoPlayerButton,closeGameModeButton;
+
+    [FoldoutGroup("Game Mode")]
+    [SerializeField,Required] private GameObject gameModePanelGroup;
 
 
     private Texture2D profilePicTexture;
@@ -43,6 +49,8 @@ public class Title_UIController : MonoBehaviour
     void Awake()
     {
         howToPlayPanelGroup.SetActive(false);
+        gameModePanelGroup.SetActive(false);
+
         howToPlayButton.onClick.AddListener(() =>
         {
             howToPlayPanelGroup.SetActive(true);
@@ -52,7 +60,11 @@ public class Title_UIController : MonoBehaviour
             howToPlayPanelGroup.SetActive(false);
         });
 
-        playGameButton.onClick.AddListener(() => SceneLoader.LoadSceneAsync("Gameplay"));
+        playGameButton.onClick.AddListener(ShowGameModeSelectPanel);
+
+        onePlayerButton.onClick.AddListener(() => OnSelectGameMode(GameMode.OnePlayer));
+        twoPlayerButton.onClick.AddListener(() => OnSelectGameMode(GameMode.TwoPlayer));
+
     }
 
 
@@ -93,6 +105,18 @@ public class Title_UIController : MonoBehaviour
         AuthenticationWrapper.OnLogin -= OnLoginHandler;
         AuthenticationWrapper.OnLogout -= OnLogoutHandler;
 
+    }
+
+
+    private void ShowGameModeSelectPanel()
+    {
+        gameModePanelGroup.SetActive(true);
+    }
+
+    private void OnSelectGameMode(GameMode gameMode)
+    {
+        GameManager.Instance.GameContext.GameMode = gameMode;
+        SceneLoader.LoadSceneAsync("Gameplay");
     }
 
 
