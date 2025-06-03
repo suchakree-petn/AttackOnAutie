@@ -41,3 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BG
+    uniqueID: 2988500631
+    locked: 0
+  - name: Character
+    uniqueID: 3655694437
+    locked: 0
+  - name: ThrowingItem
+    uniqueID: 3576532293
+    locked: 0
