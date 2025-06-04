@@ -13,7 +13,7 @@ using UnityEditor;
 public class ThrowController : MonoBehaviour
 {
     [FoldoutGroup("Config")]
-    [SerializeField] ThrowType throwType;
+    public ThrowType ThrowType;
 
     [FoldoutGroup("Config")]
     [SerializeField] bool isFacingRight = true;
@@ -48,7 +48,7 @@ public class ThrowController : MonoBehaviour
     private Vector2 velocity, launchPos;
     private float moveTime, collideRadius;
     [SerializeField] float currentCharge;
-    private bool isCollided,isThrowObjectMoving;
+    private bool isCollided, isThrowObjectMoving;
     public bool IsCharging { get; private set; }
     public bool IsThrew { get; private set; }
 
@@ -73,16 +73,29 @@ public class ThrowController : MonoBehaviour
 
     private void HandleCollision(RaycastHit2D hit)
     {
-        if (currentBounceCount >= maxBounces)
+        if (hit.collider.gameObject == gameObject || currentBounceCount >= maxBounces)
             return;
 
         bool isWall = hit.collider.CompareTag("Wall");
-        bool isOtherCharacter = hit.collider.CompareTag("Character") && hit.collider.gameObject != gameObject;
 
-        if (isWall || isOtherCharacter)
+        bool isOtherCharacter = false;
+        bool isCrit = false;
+        CharacterController characterController = null;
+        if (!isWall)
+        {
+            isOtherCharacter = hit.collider.CompareTag("Body");
+            isCrit = hit.collider.CompareTag("Critical");
+            characterController = hit.collider.GetComponentInParent<CharacterController>();
+        }
+
+        if (isWall || isOtherCharacter || isCrit)
         {
             Bounce(hit, 0.25f);
             OnCollided?.Invoke();
+            if (characterController)
+            {
+                characterController.TakeDamage(isCrit);
+            }
         }
     }
 
@@ -99,7 +112,6 @@ public class ThrowController : MonoBehaviour
     private void MoveThrowingObject()
     {
         moveTime += Time.deltaTime * speedMultiplier;
-
         float dx = velocity.x * moveTime;
         float dy = velocity.y * moveTime - 0.5f * (-Physics2D.gravity.y) * moveTime * moveTime;
 
@@ -142,8 +154,11 @@ public class ThrowController : MonoBehaviour
         IsCharging = false;
         IsThrew = true;
 
+        float windMultiplier = WindManager.Instance.GetWindMultiplier();
+        currentCharge += windMultiplier * 5f;
+
         landingPosition.x = currentCharge;
-        collideRadius = throwType == ThrowType.Power ? powerObjectRadius : normalObjectRadius;
+        collideRadius = ThrowType == ThrowType.Power ? powerObjectRadius : normalObjectRadius;
 
         Vector2 start = launchPos;
         Vector2 end = landingPosition;

@@ -10,6 +10,7 @@ public class PlayerManager : Singleton<PlayerManager>
     [SerializeField] Dictionary<PlayerIndex, CharacterController> players = new();
     public Dictionary<PlayerIndex, CharacterController> Players => players;
 
+    public static Action<PlayerIndex> OnPlayerStartTurn;
     public static Action<PlayerIndex> OnPlayerEndTurn;
 
     protected override void InitAfterAwake()
@@ -17,7 +18,13 @@ public class PlayerManager : Singleton<PlayerManager>
     }
     private void Start()
     {
+        OnPlayerStartTurn += OnPlayerStartTurnHandler;
         OnPlayerEndTurn += OnPlayerEndTurnHandler;
+    }
+
+    private void OnPlayerStartTurnHandler(PlayerIndex index)
+    {
+        WindManager.Instance.RandomWind();
     }
 
     private void OnPlayerEndTurnHandler(PlayerIndex index)

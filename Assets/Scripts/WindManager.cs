@@ -2,7 +2,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WindBarController : MonoBehaviour
+public class WindManager : Singleton<WindManager>
 {
     [Header("UI References")]
     [SerializeField] private Image leftWind;
@@ -10,15 +10,26 @@ public class WindBarController : MonoBehaviour
 
     [Header("Wind Settings")]
     [SerializeField] float maxStrenth = 1f;
+
     [OnValueChanged(nameof(UpdateWindBar))]
     [Range(0f, 1f)]
     [SerializeField] float windStrength = 1f;
+    public float WindStrength => windStrength;
 
     [OnValueChanged(nameof(UpdateWindBar))]
     [Range(-1, 1)]
     [SerializeField] int windDirection = 0;
+    public float WindDirection => windDirection;
 
 
+    protected override void InitAfterAwake()
+    {
+    }
+
+    public float GetWindMultiplier()
+    {
+        return WindDirection * WindStrength;
+    }
     [Button]
     public void RandomWind()
     {
@@ -31,6 +42,7 @@ public class WindBarController : MonoBehaviour
         windDirection = Mathf.Clamp(direction, -1, 1);
         UpdateWindBar();
     }
+
 
     void UpdateWindBar()
     {

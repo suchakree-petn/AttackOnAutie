@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Wall
   - Character
+  - Critical
+  - Body
   layers:
   - Default
   - TransparentFX
