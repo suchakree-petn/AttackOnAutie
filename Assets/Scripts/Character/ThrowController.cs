@@ -39,15 +39,18 @@ public class ThrowController : MonoBehaviour
     [FoldoutGroup("Reference"), Required]
     [SerializeField] Image chargeGaugeUI;
 
+    [FoldoutGroup("Reference"), Required]
+    [SerializeField] GameObject chargeGaugeGroup;
+
     public event Action OnCollided;
 
     private int currentBounceCount = 0;
     private Vector2 velocity, launchPos;
     private float moveTime, collideRadius;
     [SerializeField] float currentCharge;
-    private bool isThrowObjectMoving, isCollided;
-
-
+    private bool isCollided,isThrowObjectMoving;
+    public bool IsCharging { get; private set; }
+    public bool IsThrew { get; private set; }
 
     void Update()
     {
@@ -78,7 +81,7 @@ public class ThrowController : MonoBehaviour
 
         if (isWall || isOtherCharacter)
         {
-            Bounce(hit, 0.5f);
+            Bounce(hit, 0.25f);
             OnCollided?.Invoke();
         }
     }
@@ -111,6 +114,8 @@ public class ThrowController : MonoBehaviour
     [Button]
     public void ChargeThrow()
     {
+        IsCharging = true;
+
         int dir = isFacingRight ? 1 : -1;
         currentCharge += dir * chargeSpeed * Time.deltaTime;
 
@@ -134,6 +139,9 @@ public class ThrowController : MonoBehaviour
     [Button]
     public void Throw()
     {
+        IsCharging = false;
+        IsThrew = true;
+
         landingPosition.x = currentCharge;
         collideRadius = throwType == ThrowType.Power ? powerObjectRadius : normalObjectRadius;
 
@@ -163,7 +171,7 @@ public class ThrowController : MonoBehaviour
         isThrowObjectMoving = true;
     }
     [Button]
-    private void ResetThow()
+    public void ResetThow()
     {
         isThrowObjectMoving = false;
         moveTime = 0;
@@ -173,6 +181,17 @@ public class ThrowController : MonoBehaviour
         isCollided = false;
         currentCharge = minThrowRange;
         chargeGaugeUI.fillAmount = 0;
+        IsThrew = false;
+    }
+
+    public void ShowChargeGauge()
+    {
+        chargeGaugeGroup.SetActive(true);
+    }
+
+    public void HideChargeGauge()
+    {
+        chargeGaugeGroup.SetActive(false);
     }
 
 

@@ -587,7 +587,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &374721385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -610,6 +610,10 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   CarryToOtherScene: 1
+  gameContext:
+    GameMode: 0
+    CurrentPlayer: 0
+    GameConfig: {fileID: 11400000, guid: 0edd094d3721276499fccc015b12e018, type: 2}
 --- !u!4 &374721386
 Transform:
   m_ObjectHideFlags: 0
@@ -1168,6 +1172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 074bdc975210c1541a66c3509be6171c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerIndex: 1
   throwController: {fileID: 610868929}
 --- !u!61 &610868927
 BoxCollider2D:
@@ -1285,6 +1290,7 @@ MonoBehaviour:
   maxGuaranteeHit: -15.5
   throwObject: {fileID: 1121500059}
   chargeGaugeUI: {fileID: 1160845818}
+  chargeGaugeGroup: {fileID: 1439128148}
   currentCharge: 11
 --- !u!1 &626717748
 GameObject:
@@ -1417,7 +1423,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &717667902
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1427,17 +1433,17 @@ RectTransform:
   m_GameObject: {fileID: 717667901}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.65, y: 0.65, z: 0.65}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1066164681}
   - {fileID: 1666532019}
-  m_Father: {fileID: 1863907211}
+  m_Father: {fileID: 871203835}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -14, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &717667903
@@ -1767,6 +1773,7 @@ Transform:
   m_Children:
   - {fileID: 1957009401}
   - {fileID: 1742401852}
+  - {fileID: 717667902}
   m_Father: {fileID: 1863907211}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1872,6 +1879,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 074bdc975210c1541a66c3509be6171c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerIndex: 0
   throwController: {fileID: 871203839}
 --- !u!114 &871203839
 MonoBehaviour:
@@ -1899,6 +1907,7 @@ MonoBehaviour:
   maxGuaranteeHit: 15.5
   throwObject: {fileID: 1742401853}
   chargeGaugeUI: {fileID: 1666532020}
+  chargeGaugeGroup: {fileID: 717667901}
   currentCharge: 0
 --- !u!1 &892812462
 GameObject:
@@ -3044,6 +3053,112 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1437723112
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1437723114}
+  - component: {fileID: 1437723113}
+  m_Layer: 0
+  m_Name: PlayerManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1437723113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437723112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 791b54d9a3971c8408cce565b09a7100, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 871203838}
+    - {fileID: 610868926}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: players
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[PlayerIndex, Assembly-CSharp],[CharacterController,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[PlayerIndex, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  CarryToOtherScene: 1
+--- !u!4 &1437723114
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437723112}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1439128148
 GameObject:
   m_ObjectHideFlags: 0
@@ -3062,7 +3177,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1439128149
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4230,9 +4345,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 610868925}
   - {fileID: 871203835}
-  - {fileID: 717667902}
+  - {fileID: 610868925}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

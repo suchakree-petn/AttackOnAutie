@@ -91,10 +91,12 @@ public class Title_UIController : MonoBehaviour
 
         googleLoginButton.onClick.AddListener(async () =>
         {
+            Debug.Log("click login google");
             await AuthenticationWrapper.Instance.LoginGoogle();
         });
         guestLoginButton.onClick.AddListener(async () =>
         {
+            Debug.Log("click login guest");
             await AuthenticationWrapper.Instance.LoginGuest();
         });
     }

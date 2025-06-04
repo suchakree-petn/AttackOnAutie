@@ -4528,7 +4528,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 423da7f9a71829e4b939dbcf6c310ed4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: players
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[PlayerIndex, Assembly-CSharp],[CharacterController,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[PlayerIndex, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   CarryToOtherScene: 1
+  gameContext:
+    GameMode: 0
+    CurrentPlayer: 0
+    GameConfig: {fileID: 11400000, guid: 0edd094d3721276499fccc015b12e018, type: 2}
 --- !u!4 &1530186188
 Transform:
   m_ObjectHideFlags: 0
