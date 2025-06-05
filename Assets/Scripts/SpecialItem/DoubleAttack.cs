@@ -13,10 +13,6 @@ public class DoubleAttack : SpecialItem
         characterController.SetThrowAmount(config["Double Attack"].Amount);
 
     }
-    public override void Discard(PlayerIndex playerIndex)
-    {
-        CharacterController characterController = PlayerManager.Instance.Players[playerIndex];
-        characterController.SetThrowAmount(1);
-    }
+
 
 }

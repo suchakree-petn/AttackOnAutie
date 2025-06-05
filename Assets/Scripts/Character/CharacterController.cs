@@ -1,16 +1,19 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Cysharp.Threading.Tasks;
-using Cysharp.Threading.Tasks.Triggers;
-using DG.Tweening;
 using Sirenix.OdinInspector;
-
+using Spine.Unity;
 using UnityEngine;
 
 public class CharacterController : MonoBehaviour, ITurn
 {
+    public const string smallHitAnimation = "Moody Friendly";
+    public const string normalHitAnimation = "Moody UnFriendly";
+    public const string notHitAnimation = "Happy Friendly";
+    public const string winAnimation = "Cheer Friendly";
+    public const string loseAnimation = "Moody UnFriendly";
+    public const string idleAnimation = "Idle UnFriendly 1";
+
     [SerializeField] PlayerIndex playerIndex;
     public PlayerIndex PlayerIndex => playerIndex;
 
@@ -25,12 +28,15 @@ public class CharacterController : MonoBehaviour, ITurn
 
     [SerializeField] List<Collider2D> hitBoxColliders;
 
-
-
     public bool IsInTurn => GameManager.Instance.GameContext.CurrentPlayer == PlayerIndex;
     private GameContext gameContext;
 
     public bool IsMouseOverCharacter;
+    public bool IsCharging => throwController.IsCharging;
+    public bool IsThrew => throwController.IsThrew;
+    private SkeletonAnimation skeletonAnimation;
+    public bool IsTakeDamageThisTurn { get; private set; } = false;
+    public event Action OnStartChage;
 
     void Start()
     {
@@ -44,6 +50,12 @@ public class CharacterController : MonoBehaviour, ITurn
                 EndTurn();
             }
         };
+
+        throwController.OnStartChage += () =>
+        {
+            OnStartChage?.Invoke();
+        };
+
     }
 
 
@@ -90,6 +102,8 @@ public class CharacterController : MonoBehaviour, ITurn
         UpdateHPBar();
 
         hitBoxColliders.ForEach(col => col.enabled = true);
+
+        skeletonAnimation = GetComponentInChildren<SkeletonAnimation>();
     }
 
     void UpdateHPBar()
@@ -107,23 +121,35 @@ public class CharacterController : MonoBehaviour, ITurn
         if (throwType == ThrowType.Power)
         {
             damage = config["Power Throw"].Damage;
+            SetAnimation(normalHitAnimation);
+            AddAnimation(idleAnimation, true);
         }
         else
         {
             if (isCrit)
             {
                 damage = config["Normal Attack"].Damage;
+                SetAnimation(normalHitAnimation);
+                AddAnimation(idleAnimation, true);
             }
             else
             {
                 damage = config["Small Attack"].Damage;
+                SetAnimation(smallHitAnimation);
+                AddAnimation(idleAnimation, true);
+
             }
         }
         Debug.Log("TakeDamage: " + damage);
+        IsTakeDamageThisTurn = true;
         currentHp -= damage;
         currentHp = Mathf.Clamp(currentHp, 0, maxHp);
         UpdateHPBar();
 
+        if (currentHp <= 0)
+        {
+            GameManager.Instance.EndGame(PlayerIndex);
+        }
     }
 
     public void StartTurn()
@@ -133,14 +159,25 @@ public class CharacterController : MonoBehaviour, ITurn
 
         hitBoxColliders.ForEach(col => col.enabled = false);
         throwController.ResetThow();
+        IsTakeDamageThisTurn = false;
         PlayerManager.OnPlayerStartTurn?.Invoke(playerIndex);
 
     }
 
     public void EndTurn()
     {
+        if (gameContext.CurrentPlayer != playerIndex) return;
+
         hitBoxColliders.ForEach(col => col.enabled = true);
         throwController.HideChargeGauge();
+
+        CharacterController enemyCharacter = PlayerManager.Instance.GetEnemyCharacter(playerIndex);
+        if (!enemyCharacter.IsTakeDamageThisTurn && IsThrew)
+        {
+            enemyCharacter.SetAnimation(notHitAnimation);
+            enemyCharacter.AddAnimation(idleAnimation, true);
+        }
+        throwController.ThrowType = ThrowType.Normal;
         PlayerManager.OnPlayerEndTurn?.Invoke(playerIndex);
 
     }
@@ -160,6 +197,16 @@ public class CharacterController : MonoBehaviour, ITurn
         currentHp += amount;
         currentHp = Mathf.Clamp(currentHp, 0, maxHp);
         UpdateHPBar();
+    }
+
+    public void SetAnimation(string animationName, bool isLoop = false)
+    {
+        skeletonAnimation.AnimationState.SetAnimation(0, animationName, isLoop);
+    }
+
+    public void AddAnimation(string animationName, bool isLoop = false, float delay = 0)
+    {
+        skeletonAnimation.AnimationState.AddAnimation(0, animationName, isLoop, delay);
     }
 }
 

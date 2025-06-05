@@ -22,9 +22,9 @@ public class CameraFitBG : MonoBehaviour
             combinedBounds.Encapsulate(backgrounds[i].bounds);
         }
 
-        float screenRatio = (float)Screen.width / (float)Screen.height;
+        float screenRatio = Screen.width / (float)Screen.height;
         float targetWidth = combinedBounds.size.x;
-        float camOrthoSize = (targetWidth / screenRatio) / 2f;
+        float camOrthoSize = targetWidth / screenRatio / 2f;
 
         Camera cam = Camera.main;
         cam.orthographicSize = camOrthoSize;

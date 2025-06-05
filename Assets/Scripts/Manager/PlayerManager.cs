@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Google.Apis;
 using Sirenix.Utilities;
 using UnityEngine;
 
@@ -38,6 +39,19 @@ public class PlayerManager : Singleton<PlayerManager>
             _ => PlayerIndex.Player1
         };
 
-        Players[nextPlayer].StartTurn();
+        if (GameManager.Instance.GameContext.IsGameEnd)
+        {
+            Players[nextPlayer].EndTurn();
+        }
+        else
+        {
+            Players[nextPlayer].StartTurn();
+
+        }
+    }
+
+    public CharacterController GetEnemyCharacter(PlayerIndex playerIndex)
+    {
+        return playerIndex == PlayerIndex.Player1 ? players[PlayerIndex.Player2] : players[PlayerIndex.Player1];
     }
 }

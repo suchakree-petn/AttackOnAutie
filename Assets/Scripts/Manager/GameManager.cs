@@ -7,24 +7,24 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    [SerializeField] GameContext gameContext;
-    public GameContext GameContext => gameContext;
+  [SerializeField] GameContext gameContext;
+  public GameContext GameContext => gameContext;
 
 
 
 
-    protected override void InitAfterAwake()
-    {
-    }
+  protected override void InitAfterAwake()
+  {
+  }
 
 
-    private void Start()
-    {
-    }
+  private void Start()
+  {
+  }
 
 
-    [Button]
-    public void StartGame()
+  [Button]
+  public void StartGame()
   {
     PlayerManager playerManager = PlayerManager.Instance;
     if (!playerManager)
@@ -38,7 +38,7 @@ public class GameManager : Singleton<GameManager>
     if (GameContext.GameMode == GameMode.TwoPlayer)
     {
       PlayerIndex playerIndex = EnumExtension.GetRandomEnum<PlayerIndex>();
-      GameContext.CurrentPlayer = PlayerIndex.Player2;
+      GameContext.CurrentPlayer = playerIndex;
       playerManager.Players[GameContext.CurrentPlayer].StartTurn();
     }
     else
@@ -46,6 +46,19 @@ public class GameManager : Singleton<GameManager>
       GameContext.CurrentPlayer = PlayerIndex.Player2;
       playerManager.Players[PlayerIndex.Player2].StartTurn();
     }
+  }
+
+  public void EndGame(PlayerIndex playerLose)
+  {
+    var playerManager = PlayerManager.Instance;
+
+    CharacterController losePlayer = playerManager.Players[playerLose];
+    CharacterController winPlayer = playerManager.GetEnemyCharacter(playerLose);
+
+    losePlayer.SetAnimation(CharacterController.loseAnimation, true);
+    winPlayer.SetAnimation(CharacterController.winAnimation, true);
+
+    GameContext.IsGameEnd = true;
   }
 
   private void InitPlayers(PlayerManager playerManager)
@@ -66,30 +79,31 @@ public class GameManager : Singleton<GameManager>
 [Serializable]
 public class GameContext
 {
-    public GameMode GameMode;
-    public Difficulty Difficulty;
-    public PlayerIndex CurrentPlayer;
+  public GameMode GameMode;
+  public Difficulty Difficulty;
+  public PlayerIndex CurrentPlayer;
+  public bool IsGameEnd;
 
-    [InlineEditor]
-    public GameConfig GameConfig;
+  [InlineEditor]
+  public GameConfig GameConfig;
 
 }
 
 public enum GameMode
 {
-    OnePlayer,
-    TwoPlayer
+  OnePlayer,
+  TwoPlayer
 }
 
 public enum Difficulty
 {
-    Easy,
-    Normal,
-    Hard
+  Easy,
+  Normal,
+  Hard
 }
 
 public enum PlayerIndex
 {
-    Player1,
-    Player2
+  Player1,
+  Player2
 }

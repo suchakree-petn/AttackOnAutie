@@ -19,8 +19,6 @@ public class Heal : SpecialItem
         characterController.EndTurn();
 
     }
-    public override void Discard(PlayerIndex playerIndex)
-    {
-    }
+
 
 }

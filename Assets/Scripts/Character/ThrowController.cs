@@ -49,7 +49,7 @@ public class ThrowController : MonoBehaviour
     [FoldoutGroup("Reference"), Required]
     [SerializeField] GameObject chargeGaugeGroup;
 
-    public event Action OnCollided;
+    public event Action OnCollided, OnStartChage;
 
     private int currentBounceCount = 0;
     private Vector2 velocity, launchPos;
@@ -132,7 +132,11 @@ public class ThrowController : MonoBehaviour
     [Button]
     public void ChargeThrow()
     {
-        IsCharging = true;
+        if (!IsCharging)
+        {
+            IsCharging = true;
+            OnStartChage?.Invoke();
+        }
 
         int dir = isFacingRight ? 1 : -1;
         currentCharge += dir * chargeSpeed * Time.deltaTime;

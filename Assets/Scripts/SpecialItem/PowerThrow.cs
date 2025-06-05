@@ -16,10 +16,5 @@ public class PowerThrow : SpecialItem
         characterController.SetThrowType(throwType);
     }
 
-    public override void Discard(PlayerIndex playerIndex)
-    {
-        CharacterController characterController = PlayerManager.Instance.Players[playerIndex];
 
-        characterController.SetThrowType(ThrowType.Normal);
-    }
 }

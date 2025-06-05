@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +11,7 @@ public class PlayerUIController : MonoBehaviour
 {
     [SerializeField] PlayerIndex playerIndex;
     [SerializeField, Required] Button powerThrowButton, doubleAttackButton, healButton;
+    [SerializeField, Required] Image currentPlayerArrow;
     GameContext gameContext;
 
     void Awake()
@@ -25,6 +28,11 @@ public class PlayerUIController : MonoBehaviour
 
         PlayerManager.OnPlayerStartTurn += OnPlayerStartTurnHandler;
         PlayerManager.OnPlayerEndTurn += OnPlayerEndTurnHandler;
+        PlayerManager.Instance.Players.Values.ForEach(player =>
+        {
+            player.OnStartChage += HideCurrentPlayerArrow;
+        });
+
 
 
     }
@@ -33,7 +41,17 @@ public class PlayerUIController : MonoBehaviour
     {
         PlayerManager.OnPlayerStartTurn -= OnPlayerStartTurnHandler;
         PlayerManager.OnPlayerEndTurn -= OnPlayerEndTurnHandler;
+
+        if (PlayerManager.Instance )
+        {
+            PlayerManager.Instance.Players.Values.ForEach(player =>
+            {
+                player.OnStartChage -= HideCurrentPlayerArrow;
+            });
+        }
     }
+
+
 
     private void OnUsePowerThrow()
     {
@@ -74,6 +92,8 @@ public class PlayerUIController : MonoBehaviour
         if (index == playerIndex)
         {
             DisableSpecialItemButton();
+            HideCurrentPlayerArrow();
+
         }
     }
 
@@ -82,9 +102,29 @@ public class PlayerUIController : MonoBehaviour
         if (index == playerIndex)
         {
             EnableSpecialItemButton();
+            ShowCurrentPlayerArrow();
+
         }
     }
 
+    public void ShowCurrentPlayerArrow()
+    {
+        currentPlayerArrow.gameObject.SetActive(true);
+
+        currentPlayerArrow.transform.DOKill();
+        Sequence sequence = DOTween.Sequence();
+        float initialY = currentPlayerArrow.transform.position.y;
+        sequence.Append(currentPlayerArrow.transform.DOMoveY(initialY + 1, 1f));
+        sequence.Append(currentPlayerArrow.transform.DOMoveY(initialY, 1f));
+        sequence.SetLoops(-1);
+        sequence.Play();
+    }
+
+    public void HideCurrentPlayerArrow()
+    {
+        currentPlayerArrow.gameObject.SetActive(false);
+        currentPlayerArrow.transform.DOKill();
+    }
 
     public void DisableSpecialItemButton()
     {

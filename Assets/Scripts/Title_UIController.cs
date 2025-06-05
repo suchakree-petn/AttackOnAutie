@@ -14,34 +14,34 @@ public class Title_UIController : MonoBehaviour
     [SerializeField] private string imageURL;
 
     [FoldoutGroup("Login Panel")]
-    [SerializeField,Required] private TMP_Text userNameTxt;
+    [SerializeField, Required] private TMP_Text userNameTxt;
     [FoldoutGroup("Login Panel")]
-    [SerializeField,Required] private Button googleLoginButton, guestLoginButton;
+    [SerializeField, Required] private Button googleLoginButton, guestLoginButton;
     [FoldoutGroup("Login Panel")]
-    [SerializeField,Required] private GameObject loginPanelGroup;
+    [SerializeField, Required] private GameObject loginPanelGroup;
 
     [FoldoutGroup("Profile")]
-    [SerializeField,Required] private Image profilePic;
+    [SerializeField, Required] private Image profilePic;
     [FoldoutGroup("Profile")]
-    [SerializeField,Required] private GameObject profileGroup;
+    [SerializeField, Required] private GameObject profileGroup;
 
     [FoldoutGroup("Main Menu")]
-    [SerializeField,Required] private Button howToPlayButton, playGameButton;
+    [SerializeField, Required] private Button howToPlayButton, playGameButton;
 
     [FoldoutGroup("Main Menu")]
-    [SerializeField,Required] private GameObject mainMenuPanelGroup;
+    [SerializeField, Required] private GameObject mainMenuPanelGroup;
 
     [FoldoutGroup("How To Play")]
-    [SerializeField,Required] private GameObject howToPlayPanelGroup;
+    [SerializeField, Required] private GameObject howToPlayPanelGroup;
 
     [FoldoutGroup("How To Play")]
-    [SerializeField,Required] private Button closeHowToPlayButton;
+    [SerializeField, Required] private Button closeHowToPlayButton;
 
     [FoldoutGroup("Game Mode")]
-    [SerializeField,Required] private Button onePlayerButton, twoPlayerButton,closeGameModeButton;
+    [SerializeField, Required] private Button onePlayerButton, twoPlayerButton, closeGameModeButton;
 
     [FoldoutGroup("Game Mode")]
-    [SerializeField,Required] private GameObject gameModePanelGroup;
+    [SerializeField, Required] private GameObject gameModePanelGroup;
 
 
     private Texture2D profilePicTexture;
@@ -151,8 +151,10 @@ public class Title_UIController : MonoBehaviour
 
         await UpdateProfiePicture(user.ImageUrl);
 
-        profileGroup.SetActive(true);
-        loginPanelGroup.SetActive(false);
+        if (profileGroup)
+            profileGroup.SetActive(true);
+        if (loginPanelGroup)
+            loginPanelGroup.SetActive(false);
     }
 
     private async UniTask UpdateProfiePicture(string imageURL)

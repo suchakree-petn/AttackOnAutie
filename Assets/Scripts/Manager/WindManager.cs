@@ -4,9 +4,8 @@ using UnityEngine.UI;
 
 public class WindManager : Singleton<WindManager>
 {
-    [Header("UI References")]
-    [SerializeField] private Image leftWind;
-    [SerializeField] private Image rightWind;
+    [FoldoutGroup("UI References")]
+    [SerializeField] private Image leftWindGauge,rightWindGauge,leftWindArrow,rightWindArrow;
 
     [Header("Wind Settings")]
     [SerializeField] float maxStrenth = 1f;
@@ -46,27 +45,34 @@ public class WindManager : Singleton<WindManager>
 
     void UpdateWindBar()
     {
-        if (leftWind == null || rightWind == null) return;
+        if (leftWindGauge == null || rightWindGauge == null) return;
 
-        Image windFill;
+        Image windFill,windArrow;
 
         switch (windDirection)
         {
             case -1:
-                windFill = leftWind;
-                rightWind.gameObject.SetActive(false);
+                windFill = leftWindGauge;
+                windArrow = leftWindArrow;
+                rightWindGauge.gameObject.SetActive(false);
+                rightWindArrow.gameObject.SetActive(false);
                 break;
             case 1:
-                windFill = rightWind;
-                leftWind.gameObject.SetActive(false);
+                windFill = rightWindGauge;
+                windArrow = rightWindArrow;
+                leftWindGauge.gameObject.SetActive(false);
+                leftWindArrow.gameObject.SetActive(false);
+
                 break;
             default:
-                leftWind.gameObject.SetActive(false);
-                rightWind.gameObject.SetActive(false);
+                leftWindGauge.gameObject.SetActive(false);
+                rightWindGauge.gameObject.SetActive(false);
+                rightWindArrow.gameObject.SetActive(false);
+                leftWindArrow.gameObject.SetActive(false);
                 return;
         }
         windFill.gameObject.SetActive(true);
-
+        windArrow.gameObject.SetActive(true);
         windFill.fillAmount = windStrength;
     }
 }

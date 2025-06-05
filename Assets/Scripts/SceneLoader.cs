@@ -22,7 +22,7 @@ public static class SceneLoader
             if (scene.name != _loadingScene) return;
 
             SceneManager.sceneLoaded -= OnLoadingSceneLoaded;
-            LoadMainSceneAsync(targetScene).Forget(); // fire and forget
+            LoadMainSceneAsync(targetScene).Forget();
         }
     }
 

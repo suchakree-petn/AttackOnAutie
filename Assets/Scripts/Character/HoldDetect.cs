@@ -10,7 +10,6 @@ public class HoldDetect : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
     }
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("down");
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             characterController.IsMouseOverCharacter = true;
@@ -18,7 +17,6 @@ public class HoldDetect : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
     }
     public void OnPointerUp(PointerEventData eventData)
     {
-        Debug.Log("up");
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             characterController.IsMouseOverCharacter = false;

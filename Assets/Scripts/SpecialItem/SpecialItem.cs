@@ -6,5 +6,4 @@ using UnityEngine;
 public abstract class SpecialItem : ScriptableObject
 {
     public abstract void UseAsync(PlayerIndex playerIndex);
-    public abstract void Discard(PlayerIndex playerIndex);
 }
