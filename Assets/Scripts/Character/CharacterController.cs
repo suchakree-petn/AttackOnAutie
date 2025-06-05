@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks.Triggers;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 
@@ -29,7 +30,7 @@ public class CharacterController : MonoBehaviour, ITurn
     public bool IsInTurn => GameManager.Instance.GameContext.CurrentPlayer == PlayerIndex;
     private GameContext gameContext;
 
-    private bool isMouseOverCharacter;
+    public bool IsMouseOverCharacter;
 
     void Start()
     {
@@ -37,17 +38,20 @@ public class CharacterController : MonoBehaviour, ITurn
 
         throwController.OnCollided += async () =>
         {
-            await UniTask.WaitForSeconds(2f);
-            EndTurn();
+            if (throwController.ThrowAmount <= 0)
+            {
+                await UniTask.WaitForSeconds(2f);
+                EndTurn();
+            }
         };
     }
 
 
     void Update()
     {
-        if (IsInTurn && !throwController.IsThrew)
+        if (IsInTurn && !throwController.IsThrew && throwController.ThrowAmount > 0)
         {
-            if (Input.GetMouseButton(0) && isMouseOverCharacter || throwController.IsCharging)
+            if (Input.GetMouseButton(0) && IsMouseOverCharacter || throwController.IsCharging)
             {
                 throwController.ShowChargeGauge();
                 throwController.ChargeThrow();
@@ -84,6 +88,8 @@ public class CharacterController : MonoBehaviour, ITurn
         currentHp = maxHp;
 
         UpdateHPBar();
+
+        hitBoxColliders.ForEach(col => col.enabled = true);
     }
 
     void UpdateHPBar()
@@ -91,23 +97,14 @@ public class CharacterController : MonoBehaviour, ITurn
         entityHealth_UI.SetHpBar(currentHp / maxHp);
     }
 
-    private void OnMouseDown()
-    {
-        isMouseOverCharacter = true;
 
-    }
 
-    private void OnMouseUp()
-    {
-        isMouseOverCharacter = false;
-    }
-
-    public void TakeDamage(bool isCrit)
+    public void TakeDamage(bool isCrit, ThrowType throwType)
     {
         var config = gameContext.GameConfig.Config;
 
         int damage;
-        if (throwController.ThrowType == ThrowType.Power)
+        if (throwType == ThrowType.Power)
         {
             damage = config["Power Throw"].Damage;
         }
@@ -122,7 +119,7 @@ public class CharacterController : MonoBehaviour, ITurn
                 damage = config["Small Attack"].Damage;
             }
         }
-        Debug.Log("TakeDamage: "+damage);
+        Debug.Log("TakeDamage: " + damage);
         currentHp -= damage;
         currentHp = Mathf.Clamp(currentHp, 0, maxHp);
         UpdateHPBar();
@@ -146,6 +143,23 @@ public class CharacterController : MonoBehaviour, ITurn
         throwController.HideChargeGauge();
         PlayerManager.OnPlayerEndTurn?.Invoke(playerIndex);
 
+    }
+
+    public void SetThrowType(ThrowType throwType)
+    {
+        throwController.ThrowType = throwType;
+    }
+
+    public void SetThrowAmount(int amount)
+    {
+        throwController.ThrowAmount = amount;
+    }
+
+    public void Heal(int amount)
+    {
+        currentHp += amount;
+        currentHp = Mathf.Clamp(currentHp, 0, maxHp);
+        UpdateHPBar();
     }
 }
 

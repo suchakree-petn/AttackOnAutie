@@ -38,8 +38,8 @@ public class GameManager : Singleton<GameManager>
     if (GameContext.GameMode == GameMode.TwoPlayer)
     {
       PlayerIndex playerIndex = EnumExtension.GetRandomEnum<PlayerIndex>();
-      GameContext.CurrentPlayer = playerIndex;
-      playerManager.Players[playerIndex].StartTurn();
+      GameContext.CurrentPlayer = PlayerIndex.Player2;
+      playerManager.Players[GameContext.CurrentPlayer].StartTurn();
     }
     else
     {

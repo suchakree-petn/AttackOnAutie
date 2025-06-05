@@ -19,7 +19,8 @@ public class GameConfig : SerializedScriptableObject
 
     public Dictionary<string, Config> Config;
 
-    [Button("Fetch Data", Icon = SdfIconType.ArrowCounterclockwise, ButtonHeight = 50)]
+
+    [Button("Fetch Data", Icon = SdfIconType.ArrowCounterclockwise, ButtonHeight = 30)]
     [PropertyOrder(-10)]
     [GUIColor(0.5f, 0.8f, 0.5f)]
     public void FetchDataFromGoogleSheet()

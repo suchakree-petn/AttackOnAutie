@@ -20,6 +20,8 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         OnPlayerStartTurn += OnPlayerStartTurnHandler;
         OnPlayerEndTurn += OnPlayerEndTurnHandler;
+
+        GameManager.Instance.StartGame();
     }
 
     private void OnPlayerStartTurnHandler(PlayerIndex index)

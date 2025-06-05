@@ -3,6 +3,10 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using System;
 using UnityEngine.UI;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
+
+
 
 
 
@@ -23,6 +27,9 @@ public class ThrowController : MonoBehaviour
 
     [FoldoutGroup("Config")]
     [SerializeField] float speedMultiplier = 2f, normalObjectRadius = 2f, powerObjectRadius = 4f;
+
+    [FoldoutGroup("Config")]
+    public int ThrowAmount = 1;
 
     [FoldoutGroup("Config")]
     [SerializeField] private int maxBounces = 1;
@@ -73,18 +80,17 @@ public class ThrowController : MonoBehaviour
 
     private void HandleCollision(RaycastHit2D hit)
     {
-        if (hit.collider.gameObject == gameObject || currentBounceCount >= maxBounces)
+        if (hit.collider.CompareTag("Character") || currentBounceCount >= maxBounces)
             return;
 
-        bool isWall = hit.collider.CompareTag("Wall");
+        Debug.Log(hit.collider.name, hit.collider);
 
-        bool isOtherCharacter = false;
-        bool isCrit = false;
+        bool isWall = hit.collider.CompareTag("Wall");
+        bool isOtherCharacter = hit.collider.CompareTag("Body");
+        bool isCrit = hit.collider.CompareTag("Critical");
         CharacterController characterController = null;
-        if (!isWall)
+        if (isOtherCharacter || isCrit)
         {
-            isOtherCharacter = hit.collider.CompareTag("Body");
-            isCrit = hit.collider.CompareTag("Critical");
             characterController = hit.collider.GetComponentInParent<CharacterController>();
         }
 
@@ -94,7 +100,7 @@ public class ThrowController : MonoBehaviour
             OnCollided?.Invoke();
             if (characterController)
             {
-                characterController.TakeDamage(isCrit);
+                characterController.TakeDamage(isCrit, ThrowType);
             }
         }
     }
@@ -149,10 +155,11 @@ public class ThrowController : MonoBehaviour
     }
 
     [Button]
-    public void Throw()
+    public async void Throw()
     {
         IsCharging = false;
         IsThrew = true;
+        ThrowAmount--;
 
         float windMultiplier = WindManager.Instance.GetWindMultiplier();
         currentCharge += windMultiplier * 5f;
@@ -184,6 +191,17 @@ public class ThrowController : MonoBehaviour
         float speed = Mathf.Sqrt(Mathf.Max(0, g * dx * dx / denominator));
         velocity = new Vector2(cos * speed, sin * speed);
         isThrowObjectMoving = true;
+
+        await UniTask.WaitForSeconds(2);
+
+        if (ThrowAmount > 0)
+        {
+            float currentCharge = this.currentCharge;
+            ResetThow();
+            this.currentCharge = currentCharge;
+
+            Throw();
+        }
     }
     [Button]
     public void ResetThow()
@@ -197,6 +215,7 @@ public class ThrowController : MonoBehaviour
         currentCharge = minThrowRange;
         chargeGaugeUI.fillAmount = 0;
         IsThrew = false;
+        ThrowAmount = 1;
     }
 
     public void ShowChargeGauge()
