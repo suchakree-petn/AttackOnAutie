@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,11 +13,14 @@ public class PlayerUIController : MonoBehaviour
     [SerializeField] PlayerIndex playerIndex;
     [SerializeField, Required] Button powerThrowButton, doubleAttackButton, healButton;
     [SerializeField, Required] Image currentPlayerArrow;
+    [SerializeField, Required] Transform useSpecialItemBox;
+    [SerializeField, Required] TextMeshProUGUI specialItemNameText;
     GameContext gameContext;
 
     void Awake()
     {
         DisableSpecialItemButton();
+        HideCurrentPlayerArrow();
     }
 
     void Start()
@@ -70,7 +74,7 @@ public class PlayerUIController : MonoBehaviour
 
         powerThrowButton.gameObject.SetActive(false);
         DisableSpecialItemButton();
-
+        ShowUseSpecialItem("Power Throw");
     }
 
     public void OnUseDoubleAttack()
@@ -82,6 +86,7 @@ public class PlayerUIController : MonoBehaviour
 
         doubleAttackButton.gameObject.SetActive(false);
         DisableSpecialItemButton();
+        ShowUseSpecialItem("Double Attack");
 
     }
 
@@ -94,7 +99,7 @@ public class PlayerUIController : MonoBehaviour
 
         healButton.gameObject.SetActive(false);
         DisableSpecialItemButton();
-
+        ShowUseSpecialItem("Heal");
 
     }
 
@@ -153,5 +158,16 @@ public class PlayerUIController : MonoBehaviour
         powerThrowButton.interactable = true;
         doubleAttackButton.interactable = true;
         healButton.interactable = true;
+    }
+
+
+    private void ShowUseSpecialItem(string name)
+    {
+        specialItemNameText.SetText(name);
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(useSpecialItemBox.DOLocalMoveY(7.3f, 0.5f));
+        sequence.AppendInterval(2f);
+        sequence.Append(useSpecialItemBox.DOLocalMoveY(-4.3f, 0.5f));
+        sequence.Play();
     }
 }

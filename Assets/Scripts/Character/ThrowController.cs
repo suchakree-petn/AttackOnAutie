@@ -3,12 +3,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using System;
 using UnityEngine.UI;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
-
-
-
-
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -199,26 +194,44 @@ public class ThrowController : MonoBehaviour
         throwObjectColor.a = 1;
         throwObject.color = throwObjectColor;
         int rotateDir = isFacingRight ? -1 : 1;
-        throwObject.transform.DORotate(new(0, 0, rotateDir * 360), 1f, RotateMode.FastBeyond360).SetLoops(-1).SetEase(Ease.Linear);
+        throwObject.transform
+            .DORotate(new(0, 0, rotateDir * 360), 1f, RotateMode.FastBeyond360)
+            .SetLoops(-1)
+            .SetEase(Ease.Linear);
 
         IsCharging = false;
         IsThrew = true;
         ThrowAmount--;
-        float landingPos;
-        if (ignoreWind)
-        {
-            landingPos = currentCharge;
-        }
-        else
-        {
-            float windMultiplier = WindManager.Instance.GetWindMultiplier();
-            landingPos = currentCharge + windMultiplier * 5f;
-        }
-        landingPosition.x = landingPos;
-        collideRadius = ThrowType == ThrowType.Power ? powerObjectRadius : normalObjectRadius;
 
-        Vector2 start = launchPos;
-        Vector2 end = landingPosition;
+        float landingPos = ignoreWind ? currentCharge : currentCharge + (WindManager.Instance.GetWindMultiplier() * 5f); ;
+        landingPosition.x = landingPos;
+
+        SetColliderAndScale();
+
+
+        velocity = CalculateVelocity(launchPos, landingPosition);
+
+        await UniTask.WaitForSeconds(2);
+
+        if (ThrowAmount > 0)
+        {
+            float currentCharge = this.currentCharge;
+            ResetThow();
+            this.currentCharge = currentCharge;
+
+            Throw();
+        }
+    }
+
+    private void SetColliderAndScale()
+    {
+        collideRadius = ThrowType == ThrowType.Power ? powerObjectRadius : normalObjectRadius;
+        float scale = ThrowType == ThrowType.Power ? 7 : 3.6f;
+        throwObject.transform.localScale = new(scale, scale, scale);
+    }
+
+    private Vector2 CalculateVelocity(Vector2 start, Vector2 end)
+    {
         float dx = end.x - start.x;
         float dy = end.y - start.y;
 
@@ -233,25 +246,13 @@ public class ThrowController : MonoBehaviour
 
         if (Mathf.Abs(denominator) < Mathf.Epsilon)
         {
-            velocity = Vector2.zero;
             isThrowObjectMoving = false;
-            return;
+            return Vector2.zero;
         }
 
-        float speed = Mathf.Sqrt(Mathf.Max(0, g * dx * dx / denominator));
-        velocity = new Vector2(cos * speed, sin * speed);
         isThrowObjectMoving = true;
-
-        await UniTask.WaitForSeconds(2);
-
-        if (ThrowAmount > 0)
-        {
-            float currentCharge = this.currentCharge;
-            ResetThow();
-            this.currentCharge = currentCharge;
-
-            Throw();
-        }
+        float speed = Mathf.Sqrt(Mathf.Max(0, g * dx * dx / denominator));
+        return new Vector2(cos * speed, sin * speed);
     }
     [Button]
     public void ResetThow()
