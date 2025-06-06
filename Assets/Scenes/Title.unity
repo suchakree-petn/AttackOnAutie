@@ -4550,8 +4550,10 @@ MonoBehaviour:
     GameMode: 0
     Difficulty: 0
     CurrentPlayer: 0
-    IsGameEnd: 0
+    GamePhase: 0
+    GameTime: 0
     GameConfig: {fileID: 11400000, guid: 0edd094d3721276499fccc015b12e018, type: 2}
+  resultUIController: {fileID: 0}
 --- !u!4 &1530186188
 Transform:
   m_ObjectHideFlags: 0

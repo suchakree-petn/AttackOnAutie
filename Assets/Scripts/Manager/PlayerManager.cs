@@ -25,6 +25,12 @@ public class PlayerManager : Singleton<PlayerManager>
         GameManager.Instance.StartGame();
     }
 
+    void OnDestroy()
+    {
+        OnPlayerStartTurn -= OnPlayerStartTurnHandler;
+        OnPlayerEndTurn -= OnPlayerEndTurnHandler;
+    }
+
     private void OnPlayerStartTurnHandler(PlayerIndex index)
     {
         WindManager.Instance.RandomWind();
@@ -39,7 +45,7 @@ public class PlayerManager : Singleton<PlayerManager>
             _ => PlayerIndex.Player1
         };
 
-        if (GameManager.Instance.GameContext.IsGameEnd)
+        if (GameManager.Instance.GameContext.GamePhase == GamePhase.GameEnd)
         {
             Players[nextPlayer].EndTurn();
         }

@@ -166,9 +166,9 @@ public class ThrowController : MonoBehaviour
         ThrowAmount--;
 
         float windMultiplier = WindManager.Instance.GetWindMultiplier();
-        currentCharge += windMultiplier * 5f;
-
-        landingPosition.x = currentCharge;
+        float landingPos = currentCharge + windMultiplier * 5f;
+    
+        landingPosition.x = landingPos;
         collideRadius = ThrowType == ThrowType.Power ? powerObjectRadius : normalObjectRadius;
 
         Vector2 start = launchPos;

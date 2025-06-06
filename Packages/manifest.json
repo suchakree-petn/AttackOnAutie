@@ -7,6 +7,7 @@
     "com.unity.adaptiveperformance": "5.1.4",
     "com.unity.adaptiveperformance.google.android": "5.1.4",
     "com.unity.adaptiveperformance.samsung.android": "5.0.0",
+    "com.unity.device-simulator.devices": "1.0.0",
     "com.unity.ide.vscode": "1.2.5",
     "com.unity.services.authentication": "3.4.1",
     "com.unity.textmeshpro": "3.0.9",

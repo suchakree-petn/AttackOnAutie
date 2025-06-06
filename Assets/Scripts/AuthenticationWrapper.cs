@@ -53,13 +53,15 @@ public class AuthenticationWrapper
 
     public async UniTask LoginGoogle()
     {
-#if PLATFORM_ANDROID && !UNITY_EDITOR
-        Task<GoogleSignInUser> signIn = GoogleSignIn.DefaultInstance.SignIn();
-        Debug.Log("Logging in");
-        await signIn;
-        User = new(signIn.Result);
-        OnLogin?.Invoke(User);
 
+#if PLATFORM_ANDROID && !UNITY_EDITOR
+        UniTask<GoogleSignInUser> signIn = GoogleSignIn.DefaultInstance.SignIn().AsUniTask();
+        Debug.Log("Logging in");
+        await signIn.ContinueWith(task =>
+        {
+            User = new(task);
+            OnLogin?.Invoke(User);
+        });
 #else
         await UniTask.CompletedTask;
         User = new("Tutor (test in editor)", "https://lh3.googleusercontent.com/a/ACg8ocI_CN5PPYN9i2RXhUid5VicZ4C8zisRP18QR2DBgTAlba6wDg=s96-c");
@@ -78,7 +80,8 @@ public class AuthenticationWrapper
             Debug.Log("Start sign in anonymous");
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
             Debug.Log("signed in anonymous!!");
-            OnLogin?.Invoke(new("Guest_" + Random.Range(0, 999), "https://img.freepik.com/premium-vector/avatar-guest-vector-icon-illustration_1304166-97.jpg"));
+            User = new("Guest_" + Random.Range(0, 999), "https://img.freepik.com/premium-vector/avatar-guest-vector-icon-illustration_1304166-97.jpg");
+            OnLogin?.Invoke(User);
         }
         catch (AuthenticationException authException)
         {

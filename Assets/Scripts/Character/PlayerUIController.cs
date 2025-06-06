@@ -30,28 +30,36 @@ public class PlayerUIController : MonoBehaviour
         PlayerManager.OnPlayerEndTurn += OnPlayerEndTurnHandler;
         PlayerManager.Instance.Players.Values.ForEach(player =>
         {
-            player.OnStartChage += HideCurrentPlayerArrow;
+            player.OnStartChage += OnStartChargeHandler;
         });
 
 
 
     }
 
+
+
     void OnDestroy()
     {
         PlayerManager.OnPlayerStartTurn -= OnPlayerStartTurnHandler;
         PlayerManager.OnPlayerEndTurn -= OnPlayerEndTurnHandler;
 
-        if (PlayerManager.Instance )
+        if (PlayerManager.Instance)
         {
             PlayerManager.Instance.Players.Values.ForEach(player =>
             {
-                player.OnStartChage -= HideCurrentPlayerArrow;
+                player.OnStartChage -= OnStartChargeHandler;
             });
         }
+
+        DOTween.KillAll();
     }
 
-
+    private void OnStartChargeHandler()
+    {
+        HideCurrentPlayerArrow();
+        DisableSpecialItemButton();
+    }
 
     private void OnUsePowerThrow()
     {

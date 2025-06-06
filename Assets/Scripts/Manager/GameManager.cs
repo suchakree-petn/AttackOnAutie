@@ -1,9 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
-using Sirenix.Utilities;
+using Sych.ShareAssets.Runtime;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -12,15 +13,18 @@ public class GameManager : Singleton<GameManager>
 
 
 
-
   protected override void InitAfterAwake()
   {
   }
 
-
-  private void Start()
+  void Update()
   {
+    if (GameContext.GamePhase == GamePhase.GameStart)
+    {
+      GameContext.GameTime += Time.deltaTime;
+    }
   }
+
 
 
   [Button]
@@ -46,6 +50,10 @@ public class GameManager : Singleton<GameManager>
       GameContext.CurrentPlayer = PlayerIndex.Player2;
       playerManager.Players[PlayerIndex.Player2].StartTurn();
     }
+
+    GameContext.GamePhase  = GamePhase.GameStart;
+
+    GameContext.GameTime = 0;
   }
 
   public void EndGame(PlayerIndex playerLose)
@@ -58,8 +66,12 @@ public class GameManager : Singleton<GameManager>
     losePlayer.SetAnimation(CharacterController.loseAnimation, true);
     winPlayer.SetAnimation(CharacterController.winAnimation, true);
 
-    GameContext.IsGameEnd = true;
+    GameContext.GamePhase  = GamePhase.GameEnd;
+
+    ResultUIManager.Instance.ShowResultUI();
   }
+
+
 
   private void InitPlayers(PlayerManager playerManager)
   {
@@ -74,18 +86,7 @@ public class GameManager : Singleton<GameManager>
       playerManager.Players[PlayerIndex.Player2].Init(false);
     }
   }
-}
 
-[Serializable]
-public class GameContext
-{
-  public GameMode GameMode;
-  public Difficulty Difficulty;
-  public PlayerIndex CurrentPlayer;
-  public bool IsGameEnd;
-
-  [InlineEditor]
-  public GameConfig GameConfig;
 
 }
 
@@ -106,4 +107,11 @@ public enum PlayerIndex
 {
   Player1,
   Player2
+}
+
+public enum GamePhase
+{
+  Idle,
+  GameStart,
+  GameEnd
 }

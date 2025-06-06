@@ -59,6 +59,7 @@ public class Title_UIController : MonoBehaviour
         {
             howToPlayPanelGroup.SetActive(false);
         });
+        closeGameModeButton.onClick.AddListener(HideGameModeSelectPanel);
 
         playGameButton.onClick.AddListener(ShowGameModeSelectPanel);
 
@@ -113,6 +114,11 @@ public class Title_UIController : MonoBehaviour
     private void ShowGameModeSelectPanel()
     {
         gameModePanelGroup.SetActive(true);
+    }
+
+    private void HideGameModeSelectPanel()
+    {
+        gameModePanelGroup.SetActive(false);
     }
 
     private void OnSelectGameMode(GameMode gameMode)
