@@ -9,7 +9,7 @@ public class PowerThrow : SpecialItem
 
 
 
-    public override void UseAsync(PlayerIndex playerIndex)
+    public override void Use(PlayerIndex playerIndex)
     {
         CharacterController characterController = PlayerManager.Instance.Players[playerIndex];
 

@@ -275,7 +275,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.63062596
+  m_FillAmount: 0.016708255
   m_FillClockwise: 1
   m_FillOrigin: 1
   m_UseSpriteMesh: 0
@@ -426,7 +426,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &182564642
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1551,8 +1551,6 @@ MonoBehaviour:
   minThrowRange: 11
   maxThrowRange: -27
   chargeSpeed: 20
-  minGuaranteeHit: -12.5
-  maxGuaranteeHit: -15.5
   throwObject: {fileID: 1121500059}
   chargeGaugeUI: {fileID: 1160845818}
   chargeGaugeGroup: {fileID: 1528979348}
@@ -1950,7 +1948,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.3109148
+  m_FillAmount: 0.21984673
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -2220,6 +2218,7 @@ MonoBehaviour:
   shareButton: {fileID: 581680342}
   replayButton: {fileID: 428675932}
   homeButton: {fileID: 1414564710}
+  winnerText: {fileID: 1302941296}
   gameTimeText: {fileID: 1412949049}
 --- !u!4 &870266069
 Transform:
@@ -2318,8 +2317,6 @@ MonoBehaviour:
   minThrowRange: -11
   maxThrowRange: 27
   chargeSpeed: 20
-  minGuaranteeHit: 12.5
-  maxGuaranteeHit: 15.5
   throwObject: {fileID: 1742401853}
   chargeGaugeUI: {fileID: 1666532020}
   chargeGaugeGroup: {fileID: 1240856035}
@@ -3393,7 +3390,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25.6
+  m_fontSize: 23.75
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4759,6 +4756,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   CarryToOtherScene: 0
+  aiUIController: {fileID: 662558392}
 --- !u!4 &1437723114
 Transform:
   m_ObjectHideFlags: 0
@@ -5793,7 +5791,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25.6
+  m_fontSize: 23.75
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5882,12 +5880,12 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   CarryToOtherScene: 0
-  leftWindGauge: {fileID: 0}
-  rightWindGauge: {fileID: 0}
-  leftWindArrow: {fileID: 0}
-  rightWindArrow: {fileID: 0}
+  leftWindGauge: {fileID: 67131604}
+  rightWindGauge: {fileID: 770067664}
+  leftWindArrow: {fileID: 1027947856}
+  rightWindArrow: {fileID: 1270859757}
   maxStrenth: 1
-  windStrength: 0.3109148
+  windStrength: 0.21984673
   windDirection: 1
 --- !u!4 &1751818122
 Transform:
@@ -6291,8 +6289,8 @@ RectTransform:
   - {fileID: 1011947050}
   - {fileID: 982589282}
   - {fileID: 630109987}
-  - {fileID: 1270859756}
   - {fileID: 1027947855}
+  - {fileID: 1270859756}
   m_Father: {fileID: 196717448}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

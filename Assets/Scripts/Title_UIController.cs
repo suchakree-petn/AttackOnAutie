@@ -43,6 +43,11 @@ public class Title_UIController : MonoBehaviour
     [FoldoutGroup("Game Mode")]
     [SerializeField, Required] private GameObject gameModePanelGroup;
 
+    [FoldoutGroup("Difficulty")]
+    [SerializeField, Required] private GameObject difficaultyPanelGroup;
+    [FoldoutGroup("Difficulty")]
+    [SerializeField, Required] private Button easyButton, normalButton, hardButton;
+
 
     private Texture2D profilePicTexture;
 
@@ -51,23 +56,13 @@ public class Title_UIController : MonoBehaviour
         howToPlayPanelGroup.SetActive(false);
         gameModePanelGroup.SetActive(false);
 
-        howToPlayButton.onClick.AddListener(() =>
-        {
-            howToPlayPanelGroup.SetActive(true);
-        });
-        closeHowToPlayButton.onClick.AddListener(() =>
-        {
-            howToPlayPanelGroup.SetActive(false);
-        });
-        closeGameModeButton.onClick.AddListener(HideGameModeSelectPanel);
+        InitHowToPlayButtons();
 
         playGameButton.onClick.AddListener(ShowGameModeSelectPanel);
 
-        onePlayerButton.onClick.AddListener(() => OnSelectGameMode(GameMode.OnePlayer));
-        twoPlayerButton.onClick.AddListener(() => OnSelectGameMode(GameMode.TwoPlayer));
+        InitGameModeButtons();
 
     }
-
 
     private void Start()
     {
@@ -90,6 +85,44 @@ public class Title_UIController : MonoBehaviour
         AuthenticationWrapper.OnLogin += OnLoginHandler;
         AuthenticationWrapper.OnLogout += OnLogoutHandler;
 
+        InitLoginButtons();
+    }
+
+
+
+    void OnDestroy()
+    {
+        AuthenticationWrapper.OnLogin -= OnLoginHandler;
+        AuthenticationWrapper.OnLogout -= OnLogoutHandler;
+
+    }
+    private void InitHowToPlayButtons()
+    {
+        howToPlayButton.onClick.AddListener(() =>
+        {
+            howToPlayPanelGroup.SetActive(true);
+        });
+        closeHowToPlayButton.onClick.AddListener(() =>
+        {
+            howToPlayPanelGroup.SetActive(false);
+        });
+        closeGameModeButton.onClick.AddListener(HideGameModeSelectPanel);
+    }
+
+    private void InitGameModeButtons()
+    {
+        onePlayerButton.onClick.AddListener(ShowDifficultyPanel);
+        
+        easyButton.onClick.AddListener(() => OnSelectGameMode(GameMode.OnePlayer, Difficulty.Easy));
+        normalButton.onClick.AddListener(() => OnSelectGameMode(GameMode.OnePlayer, Difficulty.Normal));
+        hardButton.onClick.AddListener(() => OnSelectGameMode(GameMode.OnePlayer, Difficulty.Hard));
+
+
+        twoPlayerButton.onClick.AddListener(() => OnSelectGameMode(GameMode.TwoPlayer));
+    }
+
+    private void InitLoginButtons()
+    {
         googleLoginButton.onClick.AddListener(async () =>
         {
             Debug.Log("click login google");
@@ -102,15 +135,10 @@ public class Title_UIController : MonoBehaviour
         });
     }
 
-
-    void OnDestroy()
+    private void ShowDifficultyPanel()
     {
-        AuthenticationWrapper.OnLogin -= OnLoginHandler;
-        AuthenticationWrapper.OnLogout -= OnLogoutHandler;
-
+        difficaultyPanelGroup.SetActive(true);
     }
-
-
     private void ShowGameModeSelectPanel()
     {
         gameModePanelGroup.SetActive(true);
@@ -121,9 +149,10 @@ public class Title_UIController : MonoBehaviour
         gameModePanelGroup.SetActive(false);
     }
 
-    private void OnSelectGameMode(GameMode gameMode)
+    private void OnSelectGameMode(GameMode gameMode, Difficulty difficulty = Difficulty.Easy)
     {
         GameManager.Instance.GameContext.GameMode = gameMode;
+        GameManager.Instance.GameContext.Difficulty = difficulty;
         SceneLoader.LoadSceneAsync("Gameplay");
     }
 

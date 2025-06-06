@@ -23,17 +23,17 @@ public class SpecialItemManager : Singleton<SpecialItemManager>
 
   public void UsePowerThow(PlayerIndex playerIndex)
   {
-    powerThrowItem.UseAsync(playerIndex);
+    powerThrowItem.Use(playerIndex);
   }
 
   public void UseDoubleAttack(PlayerIndex playerIndex)
   {
-    doubleAttackItem.UseAsync(playerIndex);
+    doubleAttackItem.Use(playerIndex);
   }
 
   public void UseHeal(PlayerIndex playerIndex)
   {
-    healItem.UseAsync(playerIndex);
+    healItem.Use(playerIndex);
 
   }
 

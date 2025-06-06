@@ -19,7 +19,10 @@ public class CharacterController : MonoBehaviour, ITurn
     public PlayerIndex PlayerIndex => playerIndex;
 
     [SerializeField] float maxHp;
+    public float MaxHp => maxHp;
+
     [SerializeField] float currentHp;
+    public float CurrentHp => currentHp;
 
     [FoldoutGroup("Reference"), Required]
     [SerializeField] ThrowController throwController;
@@ -64,6 +67,12 @@ public class CharacterController : MonoBehaviour, ITurn
 
     void Update()
     {
+        if (gameContext.GameMode != GameMode.OnePlayer || playerIndex == PlayerIndex.Player2)
+            InputHandler();
+    }
+
+    private void InputHandler()
+    {
         if (IsInTurn && !throwController.IsThrew && throwController.ThrowAmount > 0)
         {
             if (Input.GetMouseButton(0) && IsMouseOverCharacter || throwController.IsCharging)
@@ -77,8 +86,6 @@ public class CharacterController : MonoBehaviour, ITurn
                 throwController.Throw();
             }
         }
-
-
     }
 
     public void Init(bool isAI)
@@ -193,6 +200,12 @@ public class CharacterController : MonoBehaviour, ITurn
     public void SetThrowAmount(int amount)
     {
         throwController.ThrowAmount = amount;
+    }
+
+    public void ChargeAndThrow(float chargeValue)
+    {
+        if (throwController.ThrowAmount > 0)
+            throwController.ChargeAndThrow(chargeValue);
     }
 
     public void Heal(int amount)

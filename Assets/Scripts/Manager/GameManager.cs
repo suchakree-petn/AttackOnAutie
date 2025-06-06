@@ -68,7 +68,7 @@ public class GameManager : Singleton<GameManager>
 
     GameContext.GamePhase  = GamePhase.GameEnd;
 
-    ResultUIManager.Instance.ShowResultUI();
+    ResultUIManager.Instance.ShowResultUI(winPlayer.PlayerIndex);
   }
 
 

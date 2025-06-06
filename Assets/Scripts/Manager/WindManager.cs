@@ -18,7 +18,7 @@ public class WindManager : Singleton<WindManager>
     [OnValueChanged(nameof(UpdateWindBar))]
     [Range(-1, 1)]
     [SerializeField] int windDirection = 0;
-    public float WindDirection => windDirection;
+    public int WindDirection => windDirection;
 
 
     protected override void InitAfterAwake()

@@ -37,9 +37,6 @@ public class ThrowController : MonoBehaviour
     [FoldoutGroup("Config")]
     [SerializeField] float minThrowRange = -27f, maxThrowRange = 11, chargeSpeed = 1;
 
-    [FoldoutGroup("Config")]
-    [SerializeField] float minGuaranteeHit = 12.5f, maxGuaranteeHit = 15.5f;
-
     [FoldoutGroup("Reference"), Required]
     [SerializeField] SpriteRenderer throwObject;
 
@@ -58,6 +55,20 @@ public class ThrowController : MonoBehaviour
     private bool isCollided, isThrowObjectMoving;
     public bool IsCharging { get; private set; }
     public bool IsThrew { get; private set; }
+
+    void Start()
+    {
+        ResetThow();
+        OnCollided += () =>
+        {
+            if (!isCollided)
+            {
+                throwObject.DOFade(0, 1);
+                throwObject.transform.DOKill();
+
+            }
+        };
+    }
 
     void Update()
     {
@@ -96,8 +107,8 @@ public class ThrowController : MonoBehaviour
 
         if (isWall || isOtherCharacter || isCrit)
         {
-            Bounce(hit, 0.25f);
             OnCollided?.Invoke();
+            Bounce(hit, 0.25f);
             if (characterController)
             {
                 characterController.TakeDamage(isCrit, ThrowType);
@@ -151,6 +162,29 @@ public class ThrowController : MonoBehaviour
         }
     }
 
+    public void ChargeAndThrow(float chargeValue)
+    {
+        if (!IsCharging)
+        {
+            IsCharging = true;
+            OnStartChage?.Invoke();
+        }
+
+        int dir = isFacingRight ? 1 : -1;
+        currentCharge = dir * chargeValue;
+
+        UpdateChargeGaugeUI(currentCharge);
+        ShowChargeGauge();
+
+        if ((isFacingRight && currentCharge >= maxThrowRange) ||
+            (!isFacingRight && currentCharge <= maxThrowRange))
+        {
+            currentCharge = maxThrowRange;
+        }
+
+        Throw(true);
+    }
+
     private void UpdateChargeGaugeUI(float currentCharge)
     {
         float throwRange = Mathf.Abs(minThrowRange - maxThrowRange);
@@ -159,15 +193,27 @@ public class ThrowController : MonoBehaviour
     }
 
     [Button]
-    public async void Throw()
+    public async void Throw(bool ignoreWind = false)
     {
+        Color throwObjectColor = throwObject.color;
+        throwObjectColor.a = 1;
+        throwObject.color = throwObjectColor;
+        int rotateDir = isFacingRight ? -1 : 1;
+        throwObject.transform.DORotate(new(0, 0, rotateDir * 360), 1f, RotateMode.FastBeyond360).SetLoops(-1).SetEase(Ease.Linear);
+
         IsCharging = false;
         IsThrew = true;
         ThrowAmount--;
-
-        float windMultiplier = WindManager.Instance.GetWindMultiplier();
-        float landingPos = currentCharge + windMultiplier * 5f;
-    
+        float landingPos;
+        if (ignoreWind)
+        {
+            landingPos = currentCharge;
+        }
+        else
+        {
+            float windMultiplier = WindManager.Instance.GetWindMultiplier();
+            landingPos = currentCharge + windMultiplier * 5f;
+        }
         landingPosition.x = landingPos;
         collideRadius = ThrowType == ThrowType.Power ? powerObjectRadius : normalObjectRadius;
 
@@ -210,6 +256,14 @@ public class ThrowController : MonoBehaviour
     [Button]
     public void ResetThow()
     {
+        throwObject.transform.DOKill();
+        throwObject.DOKill();
+        throwObject.transform.rotation = new();
+        Color throwObjectColor = throwObject.color;
+        throwObjectColor.a = 0;
+        throwObject.color = throwObjectColor;
+
+
         isThrowObjectMoving = false;
         moveTime = 0;
         currentBounceCount = 0;

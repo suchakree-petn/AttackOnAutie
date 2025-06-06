@@ -49,10 +49,10 @@ MonoBehaviour:
       Data: Player HP
     - Name: Amount
       Entry: 3
-      Data: 1
+      Data: 0
     - Name: Damage
       Entry: 3
-      Data: 1
+      Data: 0
     - Name: HP
       Entry: 3
       Data: 50
@@ -61,7 +61,7 @@ MonoBehaviour:
       Data: 0
     - Name: Sec
       Entry: 4
-      Data: 1
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -91,7 +91,7 @@ MonoBehaviour:
       Data: 50
     - Name: MissedChance
       Entry: 4
-      Data: 0
+      Data: 50
     - Name: Sec
       Entry: 4
       Data: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
       Data: 60
     - Name: MissedChance
       Entry: 4
-      Data: 0
+      Data: 30
     - Name: Sec
       Entry: 4
       Data: 0
@@ -157,7 +157,7 @@ MonoBehaviour:
       Data: 70
     - Name: MissedChance
       Entry: 4
-      Data: 0
+      Data: 15
     - Name: Sec
       Entry: 4
       Data: 0

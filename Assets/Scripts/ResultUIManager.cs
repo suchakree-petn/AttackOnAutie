@@ -12,10 +12,11 @@ public class ResultUIManager : Singleton<ResultUIManager>
 {
     [SerializeField, Required] Canvas resultUI;
     [SerializeField, Required] Button shareButton, replayButton, homeButton;
-    [SerializeField, Required] TextMeshProUGUI gameTimeText;
+    [SerializeField, Required] TextMeshProUGUI winnerText, gameTimeText;
 
     string filePath;
 
+    GameContext gameContext;
 
     protected override void InitAfterAwake()
     {
@@ -23,6 +24,8 @@ public class ResultUIManager : Singleton<ResultUIManager>
 
     private void Start()
     {
+        gameContext = GameManager.Instance.GameContext;
+
         HideResultUI();
         filePath = Path.Combine(Application.persistentDataPath, "resultImg.png");
 
@@ -33,16 +36,25 @@ public class ResultUIManager : Singleton<ResultUIManager>
 
 
 
-    public async void ShowResultUI(bool delay = true)
+    public async void ShowResultUI(PlayerIndex winner, bool delay = true)
     {
         if (delay)
             await UniTask.WaitForSeconds(2);
 
-        float timeInSeconds = GameManager.Instance.GameContext.GameTime;
-        int minutes = Mathf.FloorToInt(timeInSeconds / 60f);
-        int seconds = Mathf.FloorToInt(timeInSeconds % 60f);
         if (gameTimeText)
+        {
+            float timeInSeconds = gameContext.GameTime;
+            int minutes = Mathf.FloorToInt(timeInSeconds / 60f);
+            int seconds = Mathf.FloorToInt(timeInSeconds % 60f);
             gameTimeText.SetText($"Time : {minutes:D2}:{seconds:D2} m");
+        }
+
+        if (winnerText)
+        {
+            string resultText = (winner == PlayerIndex.Player1 && gameContext.GameMode == GameMode.OnePlayer) ? "You Lose" : "You Win";
+            winnerText.SetText(resultText);
+        }
+
         if (resultUI)
             resultUI.gameObject.SetActive(true);
 
@@ -59,9 +71,11 @@ public class ResultUIManager : Singleton<ResultUIManager>
     private async void ShareScreenShot()
     {
         shareButton.interactable = false;
-        HideResultUI();
+        if (resultUI)
+            resultUI.gameObject.SetActive(false);
         await SaveScreenShot();
-        ShowResultUI(false);
+        if (resultUI)
+            resultUI.gameObject.SetActive(true);
         await Share.ItemAsync(filePath);
         shareButton.interactable = true;
     }

@@ -61,9 +61,10 @@ public class PlayerUIController : MonoBehaviour
         DisableSpecialItemButton();
     }
 
-    private void OnUsePowerThrow()
+    public void OnUsePowerThrow()
     {
         if (GameManager.Instance.GameContext.CurrentPlayer != playerIndex) return;
+        if (!powerThrowButton.gameObject.activeInHierarchy) return;
 
         SpecialItemManager.Instance.UsePowerThow(playerIndex);
 
@@ -72,9 +73,10 @@ public class PlayerUIController : MonoBehaviour
 
     }
 
-    private void OnUseDoubleAttack()
+    public void OnUseDoubleAttack()
     {
         if (GameManager.Instance.GameContext.CurrentPlayer != playerIndex) return;
+        if (!doubleAttackButton.gameObject.activeInHierarchy) return;
 
         SpecialItemManager.Instance.UseDoubleAttack(playerIndex);
 
@@ -83,9 +85,10 @@ public class PlayerUIController : MonoBehaviour
 
     }
 
-    private void OnUseHeal()
+    public void OnUseHeal()
     {
         if (GameManager.Instance.GameContext.CurrentPlayer != playerIndex) return;
+        if (!healButton.gameObject.activeInHierarchy) return;
 
         SpecialItemManager.Instance.UseHeal(playerIndex);
 
@@ -109,29 +112,33 @@ public class PlayerUIController : MonoBehaviour
     {
         if (index == playerIndex)
         {
-            EnableSpecialItemButton();
+            if (gameContext.GameMode == GameMode.OnePlayer && playerIndex == PlayerIndex.Player1)
+                DisableSpecialItemButton();
+            else
+                EnableSpecialItemButton();
             ShowCurrentPlayerArrow();
 
         }
     }
-
+    Sequence currentPlayerArrowSequence;
     public void ShowCurrentPlayerArrow()
     {
         currentPlayerArrow.gameObject.SetActive(true);
 
-        currentPlayerArrow.transform.DOKill();
-        Sequence sequence = DOTween.Sequence();
-        float initialY = currentPlayerArrow.transform.position.y;
-        sequence.Append(currentPlayerArrow.transform.DOMoveY(initialY + 1, 1f));
-        sequence.Append(currentPlayerArrow.transform.DOMoveY(initialY, 1f));
-        sequence.SetLoops(-1);
-        sequence.Play();
+        if (currentPlayerArrowSequence == null)
+        {
+            currentPlayerArrowSequence = DOTween.Sequence();
+            float initialY = currentPlayerArrow.transform.localPosition.y;
+            currentPlayerArrowSequence.Append(currentPlayerArrow.transform.DOLocalMoveY(initialY + 1, 1f));
+            currentPlayerArrowSequence.Append(currentPlayerArrow.transform.DOLocalMoveY(initialY, 1f));
+            currentPlayerArrowSequence.SetLoops(-1);
+            currentPlayerArrowSequence.Play();
+        }
     }
 
     public void HideCurrentPlayerArrow()
     {
         currentPlayerArrow.gameObject.SetActive(false);
-        currentPlayerArrow.transform.DOKill();
     }
 
     public void DisableSpecialItemButton()
