@@ -12,35 +12,47 @@ public class PlayerUIController : MonoBehaviour
 {
     [SerializeField] PlayerIndex playerIndex;
     [SerializeField, Required] Button powerThrowButton, doubleAttackButton, healButton;
-    [SerializeField, Required] Image currentPlayerArrow;
+    [SerializeField, Required] Image currentPlayerArrow, warningTimerFill, warningTimerIcon;
     [SerializeField, Required] Transform useSpecialItemBox;
     [SerializeField, Required] TextMeshProUGUI specialItemNameText;
+    [SerializeField, Required] GameObject warningTimerGroup;
     GameContext gameContext;
+    CharacterController characterController;
+
 
     void Awake()
     {
         DisableSpecialItemButton();
         HideCurrentPlayerArrow();
+        HideWarningTimer();
     }
 
     void Start()
     {
         gameContext = GameManager.Instance.GameContext;
+        characterController = PlayerManager.Instance.Players[playerIndex];
         powerThrowButton.onClick.AddListener(OnUsePowerThrow);
         doubleAttackButton.onClick.AddListener(OnUseDoubleAttack);
         healButton.onClick.AddListener(OnUseHeal);
 
         PlayerManager.OnPlayerStartTurn += OnPlayerStartTurnHandler;
         PlayerManager.OnPlayerEndTurn += OnPlayerEndTurnHandler;
-        PlayerManager.Instance.Players.Values.ForEach(player =>
-        {
-            player.OnStartChage += OnStartChargeHandler;
-        });
+        characterController.OnStartChage += OnStartChargeHandler;
 
 
 
     }
 
+    void Update()
+    {
+        if (characterController.IsInTurn && !characterController.IsThrew && !characterController.IsCharging && gameContext.GamePhase == GamePhase.GameStart)
+        {
+            if (characterController.TimeToWarning <= 0 && characterController.TimeToThink > 0)
+                ShowWarningTimer();
+            else
+                HideWarningTimer();
+        }
+    }
 
 
     void OnDestroy()
@@ -63,6 +75,7 @@ public class PlayerUIController : MonoBehaviour
     {
         HideCurrentPlayerArrow();
         DisableSpecialItemButton();
+        HideWarningTimer();
     }
 
     public void OnUsePowerThrow()
@@ -109,7 +122,7 @@ public class PlayerUIController : MonoBehaviour
         {
             DisableSpecialItemButton();
             HideCurrentPlayerArrow();
-
+            HideWarningTimer();
         }
     }
 
@@ -160,7 +173,6 @@ public class PlayerUIController : MonoBehaviour
         healButton.interactable = true;
     }
 
-
     private void ShowUseSpecialItem(string name)
     {
         specialItemNameText.SetText(name);
@@ -169,5 +181,28 @@ public class PlayerUIController : MonoBehaviour
         sequence.AppendInterval(2f);
         sequence.Append(useSpecialItemBox.DOLocalMoveY(-4.3f, 0.5f));
         sequence.Play();
+    }
+
+    Sequence warningTimerSequence;
+    private void ShowWarningTimer()
+    {
+        warningTimerGroup.SetActive(true);
+        float thinkTime = gameContext.GameConfig.Config["Time to think"].Sec;
+        float warningTime = gameContext.GameConfig.Config["Time to Warning"].Sec;
+        warningTimerFill.fillAmount = characterController.TimeToThink / (thinkTime - warningTime);
+
+        if (warningTimerSequence == null)
+        {
+            warningTimerSequence = DOTween.Sequence();
+            warningTimerIcon.transform.localRotation = Quaternion.Euler(0, 0, -10);
+            warningTimerSequence.Append(warningTimerIcon.transform.DORotate(new Vector3(0, 0, 10), 0.5f)).SetEase(Ease.Linear);
+            warningTimerSequence.Append(warningTimerIcon.transform.DORotate(new Vector3(0, 0, -10), 0.5f)).SetEase(Ease.Linear);
+            warningTimerSequence.SetLoops(-1);
+        }
+    }
+
+    private void HideWarningTimer()
+    {
+        warningTimerGroup.SetActive(false);
     }
 }

@@ -42,6 +42,9 @@ public class CharacterController : MonoBehaviour, ITurn
     public bool IsTakeDamageThisTurn { get; private set; } = false;
     public event Action OnStartChage;
 
+    public float TimeToThink { get; private set; }
+    public float TimeToWarning { get; private set; }
+
     void Start()
     {
         gameContext = GameManager.Instance.GameContext;
@@ -65,10 +68,23 @@ public class CharacterController : MonoBehaviour, ITurn
     }
 
 
-    void Update()
+    async void Update()
     {
         if (gameContext.GameMode != GameMode.OnePlayer || playerIndex == PlayerIndex.Player2)
             InputHandler();
+
+        if (IsInTurn && !IsThrew && !IsCharging && gameContext.GamePhase == GamePhase.GameStart)
+        {
+            TimeToThink -= Time.deltaTime;
+            TimeToWarning -= Time.deltaTime;
+
+            if (TimeToThink <= 0)
+            {
+                SetThrowAmount(0);
+                await UniTask.WaitForSeconds(2f);
+                EndTurn();
+            }
+        }
     }
 
     private void InputHandler()
@@ -170,6 +186,9 @@ public class CharacterController : MonoBehaviour, ITurn
         hitBoxColliders.ForEach(col => col.enabled = false);
         throwController.ResetThow();
         IsTakeDamageThisTurn = false;
+        var config = gameContext.GameConfig.Config;
+        TimeToThink = config["Time to think"].Sec;
+        TimeToWarning = config["Time to Warning"].Sec;
         PlayerManager.OnPlayerStartTurn?.Invoke(playerIndex);
 
     }
