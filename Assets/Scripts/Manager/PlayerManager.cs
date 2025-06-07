@@ -64,7 +64,19 @@ public class PlayerManager : Singleton<PlayerManager>
             Players[nextPlayer].StartTurn();
         }
     }
-
+    public void InitPlayers()
+    {
+        if (gameContext.GameMode == GameMode.OnePlayer)
+        {
+            Players[PlayerIndex.Player1].Init(true);
+            Players[PlayerIndex.Player2].Init(false);
+        }
+        else
+        {
+            Players[PlayerIndex.Player1].Init(false);
+            Players[PlayerIndex.Player2].Init(false);
+        }
+    }
     private async void AIDecision()
     {
         await UniTask.WaitForSeconds(1);

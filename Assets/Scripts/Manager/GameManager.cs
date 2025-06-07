@@ -37,7 +37,7 @@ public class GameManager : Singleton<GameManager>
       return;
     }
 
-    InitPlayers(playerManager);
+    playerManager.InitPlayers();
 
     if (GameContext.GameMode == GameMode.TwoPlayer)
     {
@@ -73,19 +73,7 @@ public class GameManager : Singleton<GameManager>
 
 
 
-  private void InitPlayers(PlayerManager playerManager)
-  {
-    if (gameContext.GameMode == GameMode.OnePlayer)
-    {
-      playerManager.Players[PlayerIndex.Player1].Init(true);
-      playerManager.Players[PlayerIndex.Player2].Init(false);
-    }
-    else
-    {
-      playerManager.Players[PlayerIndex.Player1].Init(false);
-      playerManager.Players[PlayerIndex.Player2].Init(false);
-    }
-  }
+
 
 
 }
