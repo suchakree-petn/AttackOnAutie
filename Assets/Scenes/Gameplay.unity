@@ -1292,7 +1292,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.5, y: 5.5850525}
+  m_Size: {x: 6, y: 5.5850525}
   m_EdgeRadius: 0
 --- !u!1 &577444901
 GameObject:
@@ -1732,14 +1732,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ThrowType: 0
   isFacingRight: 0
-  landingPosition: {x: 46.1, y: -10}
+  landingPosition: {x: 46.1, y: -8}
   speedMultiplier: 2
   normalObjectRadius: 1
   powerObjectRadius: 2
+  throwAngle: 60
   ThrowAmount: 1
   maxBounces: 1
   minThrowRange: 11
-  maxThrowRange: -27
+  maxThrowRange: -39
   chargeSpeed: 20
   throwObject: {fileID: 1121500059}
   chargeGaugeUI: {fileID: 1160845818}
@@ -2701,14 +2702,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ThrowType: 0
   isFacingRight: 1
-  landingPosition: {x: -12.5, y: -10}
+  landingPosition: {x: -12.5, y: -8}
   speedMultiplier: 2
   normalObjectRadius: 1
   powerObjectRadius: 2
+  throwAngle: 60
   ThrowAmount: 1
   maxBounces: 1
   minThrowRange: -11
-  maxThrowRange: 27
+  maxThrowRange: 39
   chargeSpeed: 20
   throwObject: {fileID: 1742401853}
   chargeGaugeUI: {fileID: 1666532020}
@@ -4011,7 +4013,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.75
+  m_fontSize: 22.55
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4983,7 +4985,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.7818688, y: 1.023428}
+  m_Size: {x: 3.38, y: 1.023428}
   m_EdgeRadius: 0
 --- !u!1 &1357793878
 GameObject:
@@ -6625,7 +6627,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.75
+  m_fontSize: 22.55
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6718,6 +6720,7 @@ MonoBehaviour:
   rightWindGauge: {fileID: 770067664}
   leftWindArrow: {fileID: 1027947856}
   rightWindArrow: {fileID: 1270859757}
+  strenthMultiplier: 0
   maxStrenth: 1
   windStrength: 0.21984673
   windDirection: 1
@@ -7057,7 +7060,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.7818688, y: 1.023428}
+  m_Size: {x: 3.38, y: 1.023428}
   m_EdgeRadius: 0
 --- !u!1 &1863907210
 GameObject:
@@ -7819,5 +7822,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.5, y: 5.5850525}
+  m_Size: {x: 6, y: 5.5850525}
   m_EdgeRadius: 0

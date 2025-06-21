@@ -21,7 +21,7 @@ public class ThrowController : MonoBehaviour
     [SerializeField] Vector2 landingPosition;
 
     [FoldoutGroup("Config")]
-    [SerializeField] float speedMultiplier = 2f, normalObjectRadius = 2f, powerObjectRadius = 4f;
+    [SerializeField] float speedMultiplier = 2f, normalObjectRadius = 2f, powerObjectRadius = 4f,throwAngle = 60f;
 
     [FoldoutGroup("Config")]
     public int ThrowAmount = 1;
@@ -146,6 +146,7 @@ public class ThrowController : MonoBehaviour
 
         int dir = isFacingRight ? 1 : -1;
         currentCharge += dir * chargeSpeed * Time.deltaTime;
+        // currentCharge = (maxThrowRange +minThrowRange)/2;
 
         UpdateChargeGaugeUI(currentCharge);
 
@@ -203,7 +204,7 @@ public class ThrowController : MonoBehaviour
         IsThrew = true;
         ThrowAmount--;
 
-        float landingPos = ignoreWind ? currentCharge : currentCharge + (WindManager.Instance.GetWindMultiplier() * 5f); ;
+        float landingPos = ignoreWind ? currentCharge : currentCharge + WindManager.Instance.GetWindMultiplier(); ;
         landingPosition.x = landingPos;
 
         SetColliderAndScale();
@@ -235,7 +236,7 @@ public class ThrowController : MonoBehaviour
         float dx = end.x - start.x;
         float dy = end.y - start.y;
 
-        float angleDeg = isFacingRight ? 45f : 135f;
+        float angleDeg = isFacingRight ? throwAngle : 180 - throwAngle;
         float angleRad = angleDeg * Mathf.Deg2Rad;
 
         float cos = Mathf.Cos(angleRad);

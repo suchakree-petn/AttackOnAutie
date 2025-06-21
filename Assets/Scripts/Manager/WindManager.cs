@@ -1,3 +1,4 @@
+using System.Xml.Serialization;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,7 @@ public class WindManager : Singleton<WindManager>
 
     [Header("Wind Settings")]
     [SerializeField] float maxStrenth = 1f;
+    [SerializeField] float strenthMultiplier => GameManager.Instance.GameContext.GameConfig.Config["Wind Strength"].Amount;
 
     [OnValueChanged(nameof(UpdateWindBar))]
     [Range(0f, 1f)]
@@ -27,7 +29,7 @@ public class WindManager : Singleton<WindManager>
 
     public float GetWindMultiplier()
     {
-        return WindDirection * WindStrength;
+        return WindDirection * WindStrength * strenthMultiplier;
     }
     [Button]
     public void RandomWind()
