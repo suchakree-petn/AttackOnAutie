@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: SheetDownloader
   m_EditorClassIdentifier: 
   keyJson: {fileID: 4900000, guid: 5bb7ba62e4d18a844948dacf2c6532f7, type: 3}
-  isShowingLog: 0
+  isShowingLog: 1
