@@ -34,7 +34,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 11
+      Data: 12
     - Name: 
       Entry: 7
       Data: 
@@ -49,7 +49,7 @@ MonoBehaviour:
       Data: Player HP
     - Name: Amount
       Entry: 3
-      Data: 9999
+      Data: 0
     - Name: Damage
       Entry: 3
       Data: 0
@@ -172,10 +172,43 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: Normal Attack
+      Data: Wind Strength
     - Name: $v
       Entry: 7
       Data: 6|Config, Assembly-CSharp
+    - Name: Name
+      Entry: 1
+      Data: Wind Strength
+    - Name: Amount
+      Entry: 3
+      Data: 10
+    - Name: Damage
+      Entry: 3
+      Data: 0
+    - Name: HP
+      Entry: 3
+      Data: 0
+    - Name: MissedChance
+      Entry: 4
+      Data: 0
+    - Name: Sec
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: Normal Attack
+    - Name: $v
+      Entry: 7
+      Data: 7|Config, Assembly-CSharp
     - Name: Name
       Entry: 1
       Data: Normal Attack
@@ -208,7 +241,7 @@ MonoBehaviour:
       Data: Small Attack
     - Name: $v
       Entry: 7
-      Data: 7|Config, Assembly-CSharp
+      Data: 8|Config, Assembly-CSharp
     - Name: Name
       Entry: 1
       Data: Small Attack
@@ -241,7 +274,7 @@ MonoBehaviour:
       Data: Power Throw
     - Name: $v
       Entry: 7
-      Data: 8|Config, Assembly-CSharp
+      Data: 9|Config, Assembly-CSharp
     - Name: Name
       Entry: 1
       Data: Power Throw
@@ -274,7 +307,7 @@ MonoBehaviour:
       Data: Double Attack
     - Name: $v
       Entry: 7
-      Data: 9|Config, Assembly-CSharp
+      Data: 10|Config, Assembly-CSharp
     - Name: Name
       Entry: 1
       Data: Double Attack
@@ -307,7 +340,7 @@ MonoBehaviour:
       Data: Heal
     - Name: $v
       Entry: 7
-      Data: 10|Config, Assembly-CSharp
+      Data: 11|Config, Assembly-CSharp
     - Name: Name
       Entry: 1
       Data: Heal
@@ -340,7 +373,7 @@ MonoBehaviour:
       Data: Time to think
     - Name: $v
       Entry: 7
-      Data: 11|Config, Assembly-CSharp
+      Data: 12|Config, Assembly-CSharp
     - Name: Name
       Entry: 1
       Data: Time to think
@@ -373,7 +406,7 @@ MonoBehaviour:
       Data: Time to Warning
     - Name: $v
       Entry: 7
-      Data: 12|Config, Assembly-CSharp
+      Data: 13|Config, Assembly-CSharp
     - Name: Name
       Entry: 1
       Data: Time to Warning
@@ -406,4 +439,4 @@ MonoBehaviour:
       Data: 
   downloader: {fileID: 11400000, guid: 5554acd7ff0484f4aaf7a917ecc2e71a, type: 2}
   spreadsheetId: 1MZjpqrgAwn3wJogLk1Pa71awlSoawGJXgtvGbwNN07A
-  sheetNameAndRange: GamePlay!A1:F12
+  sheetNameAndRange: GamePlay!A1:F13
