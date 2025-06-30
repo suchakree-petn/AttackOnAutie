@@ -146,7 +146,6 @@ public class ThrowController : MonoBehaviour
 
         int dir = isFacingRight ? 1 : -1;
         currentCharge += dir * chargeSpeed * Time.deltaTime;
-        // currentCharge = (maxThrowRange +minThrowRange)/2;
 
         UpdateChargeGaugeUI(currentCharge);
 

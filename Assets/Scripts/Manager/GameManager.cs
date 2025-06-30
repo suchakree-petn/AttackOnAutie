@@ -12,7 +12,6 @@ public class GameManager : Singleton<GameManager>
   public GameContext GameContext => gameContext;
 
 
-
   protected override void InitAfterAwake()
   {
   }

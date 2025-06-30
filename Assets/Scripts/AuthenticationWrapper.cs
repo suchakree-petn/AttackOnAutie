@@ -17,7 +17,7 @@ public class AuthenticationWrapper
     {
         get
         {
-            if (instance == null)
+            if (UnityServices.State == ServicesInitializationState.Uninitialized)
             {
                 instance = new();
                 instance.InitGoogleSignIn();
